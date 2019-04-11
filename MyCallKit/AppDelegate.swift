@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
     
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
         if pushCredentials.token.count > 0 {
-            var token = NSString(format: "%@", pushCredentials.token as CVarArg) as String
+            let token = NSString(format: "%@", pushCredentials.token as CVarArg) as String
             print("pushRegistry credentialsToken \(token)")
         }
     }
