@@ -19,7 +19,6 @@ class ProviderDelegate: NSObject {
     //通過設置CXProviderConfiguration來支持視頻通話、電話號碼處理，並將通話群組的數字限制為 1 個，其實光看屬性名大家也能看得懂吧。
     static var providerConfiguration: CXProviderConfiguration {
         let providerConfiguration = CXProviderConfiguration(localizedName: "Hotline")
-    
         providerConfiguration.supportsVideo = true
         providerConfiguration.maximumCallsPerCallGroup = 1
         providerConfiguration.supportedHandleTypes = [.phoneNumber, .generic]
