@@ -12,9 +12,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func IncomingCallPressed(_ sender: UIButton) {
+        DispatchQueue.main.asyncAfter(wallDeadline: DispatchWallTime.now() + 3.0) {
+            CallkitManager.sharedInstance.displayIncomingCall(uuid: UUID(), handle: "Steve", hasVideo: false) { _ in
+            }
+        }
+    }
+    
+    @IBAction func startCallPressed(_ sender: UIButton) {
+        CallkitManager.sharedInstance.startCall(handle: "Steve", videoEnabled: false)
+        
+    }
 }
 

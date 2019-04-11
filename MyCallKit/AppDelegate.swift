@@ -7,15 +7,17 @@
 //
 
 import UIKit
+import PushKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        CallkitManager.sharedInstance.setupCall()
         return true
     }
 
@@ -40,6 +42,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+//    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
+//        guard type == .voIP else {
+//            log.info("Callkit& pushRegistry didReceiveIncomingPush But Not VoIP")
+//            return
+//        }
+//        log.info("Callkit& pushRegistry didReceiveIncomingPush")
+//        //别忘了在这里加上你们自己接电话的逻辑，比如连接聊天服务器啥的，不然这个电话打不通的
+//        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
+//            let handle = payload.dictionaryPayload["handle"] as? String,
+//            let hasVideo = payload.dictionaryPayload["hasVideo"] as? Bool,
+//            let uuid = UUID(uuidString: uuidString)
+//        {
+//            if #available(iOS 10.0, *) {
+//                ProviderDelegate.shared.reportIncomingCall(uuid: uuid, handle: handle, hasVideo: hasVideo, completion: { (error) in
+//                    if let e = error {
+//                        log.info("CallKit& displayIncomingCall Error \(e)")
+//                    }
+//                })
+//            } else {
+//                // Fallback on earlier versions
+//            }
+//        }
+//    }
 
 
 }

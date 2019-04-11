@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ProviderDelegate.reportIncomingCall(uuid:handle:hasVideo:completion:):ProviderDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "provider">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

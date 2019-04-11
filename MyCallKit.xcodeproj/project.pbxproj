@@ -12,6 +12,11 @@
 		5F30D4F62254D2070061465D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F30D4F42254D2070061465D /* Main.storyboard */; };
 		5F30D4F82254D20A0061465D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F30D4F72254D20A0061465D /* Assets.xcassets */; };
 		5F30D4FB2254D20A0061465D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F30D4F92254D20A0061465D /* LaunchScreen.storyboard */; };
+		5F30D5062254D25B0061465D /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F30D5032254D25A0061465D /* Call.swift */; };
+		5F30D5072254D25B0061465D /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F30D5042254D25B0061465D /* CallManager.swift */; };
+		5F30D5082254D25B0061465D /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F30D5052254D25B0061465D /* ProviderDelegate.swift */; };
+		5F30D50A2254D28D0061465D /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F30D5092254D28D0061465D /* Audio.swift */; };
+		5F30D50C2254D5C60061465D /* CallkitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F30D50B2254D5C60061465D /* CallkitManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		5F30D4F72254D20A0061465D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F30D4FA2254D20A0061465D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F30D4FC2254D20A0061465D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F30D5032254D25A0061465D /* Call.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		5F30D5042254D25B0061465D /* CallManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
+		5F30D5052254D25B0061465D /* ProviderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
+		5F30D5092254D28D0061465D /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		5F30D50B2254D5C60061465D /* CallkitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallkitManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +64,7 @@
 		5F30D4EF2254D2070061465D /* MyCallKit */ = {
 			isa = PBXGroup;
 			children = (
+				5F30D5022254D2150061465D /* Model */,
 				5F30D4F02254D2070061465D /* AppDelegate.swift */,
 				5F30D4F22254D2070061465D /* ViewController.swift */,
 				5F30D4F42254D2070061465D /* Main.storyboard */,
@@ -62,6 +73,18 @@
 				5F30D4FC2254D20A0061465D /* Info.plist */,
 			);
 			path = MyCallKit;
+			sourceTree = "<group>";
+		};
+		5F30D5022254D2150061465D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5F30D5032254D25A0061465D /* Call.swift */,
+				5F30D5042254D25B0061465D /* CallManager.swift */,
+				5F30D5052254D25B0061465D /* ProviderDelegate.swift */,
+				5F30D5092254D28D0061465D /* Audio.swift */,
+				5F30D50B2254D5C60061465D /* CallkitManager.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,6 +119,11 @@
 				TargetAttributes = {
 					5F30D4EC2254D2070061465D = {
 						CreatedOnToolsVersion = 10.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -135,8 +163,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F30D50A2254D28D0061465D /* Audio.swift in Sources */,
 				5F30D4F32254D2070061465D /* ViewController.swift in Sources */,
+				5F30D5062254D25B0061465D /* Call.swift in Sources */,
 				5F30D4F12254D2070061465D /* AppDelegate.swift in Sources */,
+				5F30D5072254D25B0061465D /* CallManager.swift in Sources */,
+				5F30D50C2254D5C60061465D /* CallkitManager.swift in Sources */,
+				5F30D5082254D25B0061465D /* ProviderDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
