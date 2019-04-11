@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return false
             }
             //如果當前有電話，需要根據自己App的業務邏輯判斷
-            //如果沒有電話，就打電話，調用自己的打電話方法。
+            //如果沒有電話，就打電話，呼叫自己的打電話方法。
             
             return true
         }
