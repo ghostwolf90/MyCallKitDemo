@@ -10,7 +10,7 @@ class CallManager {
     private let callController = CXCallController()
   
     func startCall(handle: String, videoEnabled: Bool) {
-        //一个 CXHandle 对象表示了一次操作，同时指定了操作的类型和值。App支持对电话号码进行操作，因此我们在操作中指定了电话号码。
+        //一個 CXHandle 對象表示了一次操作，同時指定了操作的類型和值。 App支持對電話號碼進行操作，因此我們在操作中指定了電話號碼。
         let handle = CXHandle(type: .generic, value: handle)
         let startCallAction = CXStartCallAction(call: UUID(), handle: handle)
         startCallAction.isVideo = videoEnabled
@@ -20,16 +20,16 @@ class CallManager {
     }
   
     func end(call: Call) {
-        //先创建一个 CXEndCallAction。将通话的 UUID 传递给构造函数，以便在后面可以识别通话。
+        //先創建一個 CXEndCallAction。將通話的 UUID 傳遞給構造函數，以便在後面可以識別通話。
         let endCallAction = CXEndCallAction(call: call.uuid)
-        //然后将 action 封装成 CXTransaction，以便发送给系统。
+        //然後將 action 封裝成 CXTransaction，以便發送給系統。
         let transaction = CXTransaction(action: endCallAction)
     
         requestTransaction(transaction)
     }
   
     func setHeld(call: Call, onHold: Bool) {
-        //这个 CXSetHeldCallAction 包含了通话的 UUID 以及保持状态
+        //這個 CXSetHeldCallAction 包含了通話的 UUID 以及保持狀態
         let setHeldCallAction = CXSetHeldCallAction(call: call.uuid, onHold: onHold)
         let transaction = CXTransaction()
         transaction.addAction(setHeldCallAction)
@@ -37,16 +37,16 @@ class CallManager {
         requestTransaction(transaction)
     }
     
-    //麦克风静音
+    //麥克風靜音
     func setMute(call: Call, muted: Bool) {
-        //CXSetMutedCallAction设置麦克风静音
+        //CXSetMutedCallAction設置麥克風靜音
         let setMuteCallAction = CXSetMutedCallAction(call: call.uuid, muted: muted)
         let transaction = CXTransaction()
         transaction.addAction(setMuteCallAction)
         requestTransaction(transaction)
     }
   
-    //调用 callController 的 request(_:completion:) 。系统会请求 CXProvider 执行这个 CXTransaction，这会导致你实现的委托方法被调用。
+    //呼叫 callController 的 request(_:completion:) 。系統會請求 CXProvider 執行這個 CXTransaction，這會導致你實現的委託方法被調用。
     private func requestTransaction(_ transaction: CXTransaction) {
         callController.request(transaction) { error in
             if let error = error {
@@ -58,7 +58,7 @@ class CallManager {
     }
   
     func callWithUUID(uuid: UUID) -> Call? {
-        guard let index = calls.index(where: { $0.uuid == uuid }) else {
+        guard let index = calls.firstIndex(where: { $0.uuid == uuid }) else {
             return nil
         }
         return calls[index]
@@ -74,7 +74,7 @@ class CallManager {
     }
 
     func remove(call: Call) {
-        guard let index = calls.index(where: { $0 === call }) else { return }
+        guard let index = calls.firstIndex(where: { $0 === call }) else { return }
         calls.remove(at: index)
         callsChangedHandler?()
     }

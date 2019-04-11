@@ -44,13 +44,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    //收到pushkit推播
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
         guard type == .voIP else {
             print("Callkit& pushRegistry didReceiveIncomingPush But Not VoIP")
             return
         }
         print("Callkit& pushRegistry didReceiveIncomingPush")
-        //别忘了在这里加上你们自己接电话的逻辑，比如连接聊天服务器啥的，不然这个电话打不通的
+        //在這加上App接聽電話邏輯ㄝ，不然會打不通
         if let uuidString = payload.dictionaryPayload["UUID"] as? String,
             let handle = payload.dictionaryPayload["handle"] as? String,
             let hasVideo = payload.dictionaryPayload["hasVideo"] as? Bool,
@@ -80,9 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Callkit& Could not determine video from user activity: \(userActivity)")
                 return false
             }
-            //如果当前有电话，需要根据自己App的业务逻辑判断
-            
-            //如果没有电话，就打电话，调用自己的打电话方法。
+            //如果當前有電話，需要根據自己App的業務邏輯判斷
+            //如果沒有電話，就打電話，調用自己的打電話方法。
             
             return true
         }
