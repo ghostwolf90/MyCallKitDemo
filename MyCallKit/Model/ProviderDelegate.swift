@@ -41,14 +41,14 @@ class ProviderDelegate: NSObject {
     func reportIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((Error?) -> Void)?) {
         //準備向系統報告一個 call update 事件，它包含了所有的來電相關的元數據。
         let update = self.callUpdate(handle: handle, hasVideo: hasVideo)
-        //調用 CXProvider 的reportIcomingCall(with:update:completion:)方法通知系統有來電。
+        //呼叫 CXProvider 的reportIcomingCall(with:update:completion:)方法通知系統有來電。
         provider.reportNewIncomingCall(with: uuid, update: update) { error in
             if error == nil {
-                //completion 回調會在系統處理來電時調用。如果沒有任何錯誤，你就創建一個 Call 實例，將它添加到 CallManager 的通話列表。
+                //completion 回調會在系統處理來電時呼叫。如果沒有任何錯誤，你就創建一個 Call 實例，將它添加到 CallManager 的通話列表。
                 let call = Call(uuid: uuid, handle: handle)
                 self.callManager.add(call: call)
             }
-            //調用 completion，如果它不為空的話。
+            //呼叫 completion，如果它不為空的話。
             completion?(error)
         }
     }
@@ -57,7 +57,7 @@ class ProviderDelegate: NSObject {
 // MARK: - CXProviderDelegate
 
 extension ProviderDelegate: CXProviderDelegate {
-    //CXProviderDelegate 唯一一個必須實現的代理方法！ ！當 CXProvider 被 reset 時，這個方法被調用，這樣你的 App 就可以清空所有去電，會到干淨的狀態。在這個方法中，你會停止所有的呼出音頻會話，然後拋棄所有激活的通話。
+    //CXProviderDelegate 唯一一個必須實現的代理方法！ ！當 CXProvider 被 reset 時，這個方法被呼叫，這樣你的 App 就可以清空所有去電，會到干淨的狀態。在這個方法中，你會停止所有的呼出音頻會話，然後拋棄所有激活的通話。
     func providerDidReset(_ provider: CXProvider) {
         stopAudio()
     
@@ -76,11 +76,11 @@ extension ProviderDelegate: CXProviderDelegate {
         }
         //設置通話要用的 audio session 是 App 的責任。系統會以一個較高的優先級來激活這個 session。
         configureAudioSession()
-        //通過調用 answer，你會表明這個通話現在激活
+        //通過呼叫 answer，你會表明這個通話現在激活
         call.answer()
         //在這裡添加自己App接電話的邏輯
         
-        //在處理一個 CXAction 時，重要的一點是，要么你拒絕它（fail），要么滿足它（fullfill)。如果處理過程中沒有發生錯誤，你可以調用 fullfill() 表示成功。
+        //在處理一個 CXAction 時，重要的一點是，要么你拒絕它（fail），要么滿足它（fullfill)。如果處理過程中沒有發生錯誤，你可以呼叫 fullfill() 表示成功。
         action.fulfill()
     }
   
@@ -92,7 +92,7 @@ extension ProviderDelegate: CXProviderDelegate {
         }
         //當 call 即將結束時，停止這次通話的音頻處理。
         stopAudio()
-        //調用 end() 方法修改本次通話的狀態，以允許其他類和新的狀態交互。
+        //呼叫 end() 方法修改本次通話的狀態，以允許其他類和新的狀態交互。
         call.end()
         //在這裡添加自己App掛斷電話的邏輯
         //將 action 標記為 fulfill。
@@ -124,7 +124,7 @@ extension ProviderDelegate: CXProviderDelegate {
         provider.reportCall(with: action.callUUID, updated: update)
         
         let call = Call(uuid: action.callUUID, outgoing: true, handle: action.handle.value)
-        //當我們用 UUID 創建出 Call 對象之後，我們就應該去配置 App 的音頻會話。和呼入通話一樣，你的唯一任務就是配置。真正的處理在後面進行，也就是在 provider(_:didActivate) 委託方法被調用時
+        //當我們用 UUID 創建出 Call 對象之後，我們就應該去配置 App 的音頻會話。和呼入通話一樣，你的唯一任務就是配置。真正的處理在後面進行，也就是在 provider(_:didActivate) 委託方法被呼叫時
         configureAudioSession()
         
         //delegate 會監聽通話的生命週期。它首先會會報告的就是呼出通話開始連接。當通話最終連上時，delegate 也會被通知。
@@ -138,14 +138,14 @@ extension ProviderDelegate: CXProviderDelegate {
             }
         }
     
-        //調用 call.start() 方法會導致 call 的生命週期變化。如果連接成功，則標記 action 為 fullfill。
+        //呼叫 call.start() 方法會導致 call 的生命週期變化。如果連接成功，則標記 action 為 fullfill。
         call.start { [weak self] success in
             guard let strongSelf = self else { return }
       
             if success {
                 //這裡填寫你們App內打電話的邏輯。 。
                 strongSelf.callManager.add(call: call)
-                //所有的Action只有調用了fulfill()之後才算執行完畢。
+                //所有的Action只有呼叫了fulfill()之後才算執行完畢。
                 action.fulfill()
             } else {
                 action.fail()
@@ -164,7 +164,7 @@ extension ProviderDelegate: CXProviderDelegate {
         action.fulfill()
     }
   
-    //當系統激活 CXProvider 的 audio session時，委託會被調用。這給你一個機會開始處理通話的音頻。
+    //當系統激活 CXProvider 的 audio session時，委託會被呼叫。這給你一個機會開始處理通話的音頻。
     func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
         startAudio() ////一定要記得播放鈴聲吶。 。
     }
