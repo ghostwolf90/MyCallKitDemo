@@ -68,8 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    //从系统通话记录中直接拨打App的电话
-    private func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    //從系統通話記錄中直接撥打App的電話
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if #available(iOS 10.0, *) {
             guard userActivity.startCallHandle != nil else {
                 print("Callkit& Could not determine start call handle from user activity: \(userActivity)")
