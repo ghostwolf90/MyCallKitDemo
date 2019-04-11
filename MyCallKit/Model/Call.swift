@@ -27,6 +27,7 @@ enum CallState {
     case active
     case held
     case ended
+    case muted
 }
 
 enum ConnectedState {

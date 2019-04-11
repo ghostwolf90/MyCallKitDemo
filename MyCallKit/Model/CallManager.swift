@@ -20,17 +20,29 @@ class CallManager {
     }
   
     func end(call: Call) {
+        //先创建一个 CXEndCallAction。将通话的 UUID 传递给构造函数，以便在后面可以识别通话。
         let endCallAction = CXEndCallAction(call: call.uuid)
+        //然后将 action 封装成 CXTransaction，以便发送给系统。
         let transaction = CXTransaction(action: endCallAction)
     
         requestTransaction(transaction)
     }
   
     func setHeld(call: Call, onHold: Bool) {
+        //这个 CXSetHeldCallAction 包含了通话的 UUID 以及保持状态
         let setHeldCallAction = CXSetHeldCallAction(call: call.uuid, onHold: onHold)
         let transaction = CXTransaction()
         transaction.addAction(setHeldCallAction)
     
+        requestTransaction(transaction)
+    }
+    
+    //麦克风静音
+    func setMute(call: Call, muted: Bool) {
+        //CXSetMutedCallAction设置麦克风静音
+        let setMuteCallAction = CXSetMutedCallAction(call: call.uuid, muted: muted)
+        let transaction = CXTransaction()
+        transaction.addAction(setMuteCallAction)
         requestTransaction(transaction)
     }
   

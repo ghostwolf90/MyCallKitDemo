@@ -85,15 +85,19 @@ extension ProviderDelegate: CXProviderDelegate {
     }
   
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
+        //从 callManager 获得一个 call 对象。
         guard let call = callManager.callWithUUID(uuid: action.callUUID) else {
             action.fail()
             return
         }
-    
+        //当 call 即将结束时，停止这次通话的音频处理。
         stopAudio()
-    
+        //调用 end() 方法修改本次通话的状态，以允许其他类和新的状态交互。
         call.end()
+        //在这里添加自己App挂断电话的逻辑
+        //将 action 标记为 fulfill。
         action.fulfill()
+        //当你不再需要这个通话时，可以让 callManager 回收它。
         callManager.remove(call: call)
     }
   
@@ -102,15 +106,15 @@ extension ProviderDelegate: CXProviderDelegate {
             action.fail()
             return
         }
-    
+        //获得 CXCall 对象之后，我们要根据 action 的 isOnHold 属性来设置它的 state。
         call.state = action.isOnHold ? .held : .active
-    
+        //根据状态的不同，分别进行启动或停止音频会话。
         if call.state == .held {
             stopAudio()
         } else {
             startAudio()
         }
-    
+        //在这里添加你们自己的通话挂起逻辑
         action.fulfill()
     }
   
@@ -147,6 +151,17 @@ extension ProviderDelegate: CXProviderDelegate {
                 action.fail()
             }
         }
+    }
+    
+    func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
+        guard let call = callManager.callWithUUID(uuid: action.callUUID) else {
+            action.fail()
+            return
+        }
+        //获得 CXCall 对象之后，我们要根据 action 的 ismuted 属性来设置它的 state。
+        call.state = action.isMuted ? .muted : .active
+        //在这里添加你们自己的麦克风静音逻辑
+        action.fulfill()
     }
   
     //当系统激活 CXProvider 的 audio session时，委托会被调用。这给你一个机会开始处理通话的音频。

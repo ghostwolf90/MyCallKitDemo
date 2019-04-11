@@ -8,6 +8,7 @@
 
 import UIKit
 import PushKit
+import Intents
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,29 +44,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-//    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
-//        guard type == .voIP else {
-//            log.info("Callkit& pushRegistry didReceiveIncomingPush But Not VoIP")
-//            return
-//        }
-//        log.info("Callkit& pushRegistry didReceiveIncomingPush")
-//        //别忘了在这里加上你们自己接电话的逻辑，比如连接聊天服务器啥的，不然这个电话打不通的
-//        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
-//            let handle = payload.dictionaryPayload["handle"] as? String,
-//            let hasVideo = payload.dictionaryPayload["hasVideo"] as? Bool,
-//            let uuid = UUID(uuidString: uuidString)
-//        {
-//            if #available(iOS 10.0, *) {
-//                ProviderDelegate.shared.reportIncomingCall(uuid: uuid, handle: handle, hasVideo: hasVideo, completion: { (error) in
-//                    if let e = error {
-//                        log.info("CallKit& displayIncomingCall Error \(e)")
-//                    }
-//                })
-//            } else {
-//                // Fallback on earlier versions
-//            }
-//        }
-//    }
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
+        guard type == .voIP else {
+            print("Callkit& pushRegistry didReceiveIncomingPush But Not VoIP")
+            return
+        }
+        print("Callkit& pushRegistry didReceiveIncomingPush")
+        //别忘了在这里加上你们自己接电话的逻辑，比如连接聊天服务器啥的，不然这个电话打不通的
+        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
+            let handle = payload.dictionaryPayload["handle"] as? String,
+            let hasVideo = payload.dictionaryPayload["hasVideo"] as? Bool,
+            let uuid = UUID(uuidString: uuidString)
+        {
+            if #available(iOS 10.0, *) {
+                CallkitManager.sharedInstance.displayIncomingCall(uuid: uuid, handle: handle, hasVideo: hasVideo) { (error) in
+                    if let e = error {
+                        print("CallKit& displayIncomingCall Error \(e)")
+                    }
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+    
+    //从系统通话记录中直接拨打App的电话
+    private func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        if #available(iOS 10.0, *) {
+            guard userActivity.startCallHandle != nil else {
+                print("Callkit& Could not determine start call handle from user activity: \(userActivity)")
+                return false
+            }
+            
+            guard userActivity.video != nil else {
+                print("Callkit& Could not determine video from user activity: \(userActivity)")
+                return false
+            }
+            //如果当前有电话，需要根据自己App的业务逻辑判断
+            
+            //如果没有电话，就打电话，调用自己的打电话方法。
+            
+            return true
+        }
+        return false
+    }
 
 
 }
